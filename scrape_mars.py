@@ -21,22 +21,22 @@ def scrape_mars():
     time.sleep(1)
 
     html = browser.html
-    print(html)
+    # print(html)
 
     # start soup
     mars_soup = bs(html, 'html.parser')
 
     # get title
     news_title_div = mars_soup.find('div', class_='content_title')
-    print(news_title_div)
+    # print(news_title_div)
     news_title = news_title_div.text
-    print(news_title)
+    # print(news_title)
     mars_data["nasa_news_title"] = news_title
 
     # get p text
     news_p_div = mars_soup.find('div', class_='article_teaser_body')
     news_p = news_p_div.text
-    print(news_p)
+    # print(news_p)
     mars_data["news_p"] = news_p
 
 #     return mars_data
@@ -44,6 +44,7 @@ def scrape_mars():
     # ## JPL Mars Space Images—Featured Image
     jpl_url = "https://spaceimages-mars.com/"
     browser.visit(jpl_url)
+    time.sleep(1)
     html = browser.html
 
     # start soup
@@ -68,22 +69,29 @@ def scrape_mars():
 
     # ## Mars Hemispheres
     hemi_url = "https://marshemispheres.com/"
+    hemisphere_image_urls = []
+
     browser.visit(hemi_url)
+    time.sleep(1)
     html = browser.html
     hemi_soup = bs(html, 'html.parser')
     hemi_desc = hemi_soup.find_all('div', class_='description')
-    hemisphere_image_urls = []
+    
     for desc in hemi_desc:
         title = desc.find('h3').text
+        print("OUR TITLE IS: " + title)
         url = desc.find('a')['href']
         hemi_imgur = hemi_url + url
-    #     print(hemi_imgur)
+        print("HEMIIMGUR is: " + hemi_imgur)
         
         browser.visit(hemi_imgur)
+        time.sleep(1)
         html = browser.html
         soup = bs(html, 'html.parser')
-    #     print(soup)
-    
+        print("#######BELOW THIS IS OUR SOUP: ")
+        print(soup)
+        print("#######above THIS IS OUR SOUP: ")
+
         enhanced_div = soup.find('div', class_='downloads')
         hemi_imgur = enhanced_div.find('a')['href']
 
@@ -91,10 +99,12 @@ def scrape_mars():
         hemisphere_image_urls.append(hemi_dict)
         
     mars_data["hemisphere_image_urls"] = hemisphere_image_urls
+    # Quit the browser
     browser.quit()
-    return mars_data    # # Setup splinter
-    
-# Quit the browser
-
-
     # Return our dictionary
+    return mars_data    
+    
+
+
+
+    
