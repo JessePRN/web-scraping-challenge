@@ -21,11 +21,11 @@ def index():
 
 # set our path to /scrape
 @app.route("/scrape")
-def scraper():
+def scrape():
     # create a listings database
     mars_data = mongo.db.mars_data
     # call the scrape function in our scrape_mars file. This will scrape and save to mongo.
-    mars_fetch_data = scrape_mars.scrape()
+    mars_fetch_data = scrape_mars.scrape_mars()
     # update our listings with the data that is being scraped.
     mars_data.update_many({}, {"$set": mars_fetch_data}, upsert=True)
     # return a message to our page so we know it was successful.
