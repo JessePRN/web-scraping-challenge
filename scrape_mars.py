@@ -59,8 +59,12 @@ def scrape_mars():
     # ## Mars Facts
     fact_url = "https://galaxyfacts-mars.com/"
     fact_scrape = pd.read_html(fact_url)
+    #table cleaning
     fact_df = fact_scrape[0]
+    fact_df = fact_df.drop(0)
     fact_df.columns = ['Mars-Earth Comparison', 'Mars', 'Earth']
+    fact_df = fact_df.set_index('Mars-Earth Comparison')
+
     html_table = fact_df.to_html()
     mars_data["html_table"] = html_table
 
@@ -79,18 +83,18 @@ def scrape_mars():
     
     for desc in hemi_desc:
         title = desc.find('h3').text
-        print("OUR TITLE IS: " + title)
+        # print("OUR TITLE IS: " + title)
         url = desc.find('a')['href']
         hemi_imgur = hemi_url + url
-        print("HEMIIMGUR is: " + hemi_imgur)
+        # print("HEMIIMGUR is: " + hemi_imgur)
         
         browser.visit(hemi_imgur)
         time.sleep(1)
         html = browser.html
         soup = bs(html, 'html.parser')
-        print("#######BELOW THIS IS OUR SOUP: ")
-        print(soup)
-        print("#######above THIS IS OUR SOUP: ")
+        # print("#######BELOW THIS IS OUR SOUP: ")
+        # print(soup)
+        # print("#######above THIS IS OUR SOUP: ")
 
         enhanced_div = soup.find('div', class_='downloads')
         hemi_imgur = enhanced_div.find('a')['href']

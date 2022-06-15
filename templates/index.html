@@ -50,7 +50,7 @@
           {% for desc in mars_data.hemisphere_image_urls %}
           <div class="col-md-3">
             <div class="card text-white bg-dark" style="margin: 30px;">
-              <img class="card-img-top" src="{{desc['img_url']}}" />
+              <img class="card-img-top img-thumbnail" src="{{desc.img_url}}" />
               <div class="card-body">
                 <p class="card-text">{{ desc.title }}</p>
               </div>
